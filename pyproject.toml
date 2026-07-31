@@ -1,0 +1,32 @@
+[project]
+name = "mcp-multi-poc"
+version = "0.1.0"
+description = "PoC: one PyPI package serving multiple MCP servers via subcommands + optional extras"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+dependencies = [
+    "fastmcp>=3.2,<4",
+    "click>=8",
+]
+
+[project.optional-dependencies]
+# 'beta' simulates a server-specific SDK (tabulate stands in for the Analytics SDK;
+# NOTE: must be a package outside fastmcp's dependency tree — httpx and pyyaml
+# are both pulled in transitively and silently defeat the extras guard)
+beta = ["tabulate>=0.9"]
+all = ["mcp-multi-poc[beta]"]
+
+[project.scripts]
+# Primary entrypoint: click group, subcommand selects the server (Option 2)
+mcp-multi-poc = "mcp_multi_poc.cli:cli"
+# Secondary script with a DIFFERENT name than the package (Option 1 test):
+# can any registry entry / client run this at all?
+mcp-multi-poc-beta = "mcp_multi_poc.beta_server:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mcp_multi_poc"]
