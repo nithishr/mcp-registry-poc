@@ -1,7 +1,7 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.nithishr/mcp-multi-poc-beta-script",
-  "description": "PoC Q5: run a console script named differently than its PyPI package. Expected to fail.",
+  "description": "PoC Q5b: run a differently-named console script via a positional runtimeArgument.",
   "repository": {
     "url": "https://github.com/nithishr/mcp-registry-poc",
     "source": "github"
@@ -10,7 +10,7 @@
   "packages": [
     {
       "registryType": "pypi",
-      "identifier": "mcp-multi-poc-beta",
+      "identifier": "mcp-multi-poc",
       "version": "0.1.0",
       "transport": {
         "type": "stdio"
@@ -20,7 +20,14 @@
           "type": "named",
           "name": "--from",
           "value": "mcp-multi-poc[beta]",
-          "description": "Install the real package with the beta extra; run the mcp-multi-poc-beta script it provides",
+          "description": "Install the real package with the beta extra",
+          "isRequired": true
+        },
+        {
+          "type": "positional",
+          "value": "mcp-multi-poc-beta",
+          "valueHint": "mcp-multi-poc-beta",
+          "description": "The console script uvx should run; the identifier appended after this becomes a stray arg the server ignores",
           "isRequired": true
         }
       ]
