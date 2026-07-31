@@ -10,11 +10,20 @@
   "packages": [
     {
       "registryType": "pypi",
-      "identifier": "mcp-multi-poc[beta]",
+      "identifier": "mcp-multi-poc",
       "version": "0.1.0",
       "transport": {
         "type": "stdio"
       },
+      "runtimeArguments": [
+        {
+          "type": "named",
+          "name": "--from",
+          "value": "mcp-multi-poc[beta]",
+          "description": "Install with the beta extra (extras are not allowed in identifier)",
+          "isRequired": true
+        }
+      ],
       "packageArguments": [
         {
           "type": "positional",

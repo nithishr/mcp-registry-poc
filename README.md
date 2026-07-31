@@ -21,6 +21,19 @@ defeat the extras guard).
 | 4 | Do clients run the **subcommand form** correctly from registry metadata (`uvx mcp-multi-poc alpha`)? | Install both servers from a client (Claude Desktop / MCP Inspector) |
 | 5 | Is there any schema-legal way to run a console script **named differently than the package** (`mcp-multi-poc-beta`)? | `server.beta-script.json`: identifier = script name + `runtimeArguments: --from mcp-multi-poc[beta]`. Expected failure mode: ownership validation rejects the identifier because `mcp-multi-poc-beta` is not a real PyPI package. If it fails, the fallback for script-per-server is a **shim package** published under the script's name |
 
+## Findings so far (2026-07-31)
+
+- **Q1 — multiple entries per PyPI package: YES.** `mcp-multi-poc-alpha` published
+  against the shared package.
+- **Q2 — multiple `mcp-name` comments in one README: YES** (alpha validated with
+  three comments present).
+- **Q3 — extras in `identifier`: NO.** Publish fails: the registry does a literal
+  PyPI lookup — `PyPI package 'mcp-multi-poc[beta]' not found (status: 404)`.
+  Retest in progress: plain identifier + `runtimeArguments: --from "mcp-multi-poc[beta]"`.
+- **Q5 — differently-named console script as identifier: NO.** Same 404 mechanism
+  (`'mcp-multi-poc-beta' not found`). Script-per-server therefore requires a
+  **shim package** published under each script's name.
+
 ## Local smoke test (before publishing anything)
 
 ```bash
